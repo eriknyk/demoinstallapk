@@ -30,6 +30,7 @@ import ru.solrudev.ackpine.installer.PackageInstaller
 import ru.solrudev.ackpine.installer.parameters.InstallParameters
 import ru.solrudev.ackpine.session.SessionResult
 import ru.solrudev.ackpine.session.await
+import ru.solrudev.ackpine.session.parameters.Confirmation
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -111,6 +112,7 @@ class MainActivity : ComponentActivity() {
                     .Builder(apkUri)
                     .setName("release-app.apk")
                     .setRequireUserAction(true)
+                    .setConfirmation(Confirmation.IMMEDIATE)
                     .build()
             )
 
@@ -118,6 +120,12 @@ class MainActivity : ComponentActivity() {
             when (result) {
                 is SessionResult.Success -> {
                     println("Success")
+                    AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Success")
+                        .setMessage("The app has been installed successfully")
+                        .setPositiveButton("OK") { _, _ -> }
+                        .create()
+                        .show()
                 }
 
                 is SessionResult.Error -> {
